@@ -4,20 +4,23 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Jokenpô</title>
+    <title>Jokenpô - Pedra, Papel e Tesoura</title>
 
     <style>
         * {
-            font-family: Arial, Helvetica, sans-serif;
+            font-family: Helvetica Neue, Helvetica, Arial;
             font-weight: 400;
             cursor: default;
         }
         
-        #principal {}
+        body {
+            background-color: #f8f8f8;
+        }
         
         #titulo {
+            font-size: 40px;
             text-align: center;
-            color: #2d3436;
+            color: #273c75;
         }
         
         #placar {
@@ -26,7 +29,8 @@
             justify-content: center;
         }
         
-        #jogador {
+        #jogador,
+        #computador {
             background-color: #ff7675;
         }
         
@@ -164,15 +168,35 @@
 
     <script>
         var jogadorNome;
-        var computadorEscolha;
+        var jogadorPontos = 0;
         var jogadorEscolha = 0;
 
-        var jogadorPontos = 0;
+        var computadorEscolha = 0;
         var computadorPontos = 0;
 
         //Sortear Jogada do Computador
         function sortear(min, max) {
             return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+
+        //Selecionar computador destaque
+        function selecionar(tipo, escolha) {
+            document.getElementById(tipo + '-escolha-' + escolha).classList.add('selecionar');
+        }
+
+        //Remover computador destaque
+        function deselecionar(tipo, escolha) {
+            document.getElementById(tipo + '-escolha-' + escolha).classList.remove('selecionar');
+        }
+
+        //Exibir mensagem
+        function mensagem(texto) {
+            document.getElementById('mensagem').innerHTML = texto;
+        }
+
+        //Definir Jogador
+        function definirNome(texto) {
+            document.getElementById('jogador-nome').innerHTML = texto;
         }
 
         //Calcula ganhador
@@ -209,27 +233,6 @@
             computadorPontos++;
             document.getElementById('computador-pontos').innerHTML = computadorPontos;
         }
-
-        //Selecionar computador destaque
-        function selecionar(tipo, escolha) {
-            document.getElementById(tipo + '-escolha-' + escolha).classList.add('selecionar');
-        }
-
-        //Remover computador destaque
-        function deselecionar(tipo, escolha) {
-            document.getElementById(tipo + '-escolha-' + escolha).classList.remove('selecionar');
-        }
-
-        //Exibir mensagem
-        function mensagem(texto) {
-            document.getElementById('mensagem').innerHTML = texto;
-        }
-
-        //Definir Jogador
-        function definirNome(texto) {
-            document.getElementById('jogador-nome').innerHTML = texto;
-        }
-
         //Escolha uma opção
         // 1- Pedra 2- Papel 3- Tesoura
         function jogar(escolha) {
@@ -254,10 +257,10 @@
             }
 
             setTimeout(function() {
-                deselecionar('jogador', jogadorEscolha)
-                deselecionar('computador', computadorEscolha)
-                mensagem(jogadorNome + ' escolha uma opção acima...');
-            }, 2500);
+                deselecionar('jogador', jogadorEscolha);
+                deselecionar('computador', computadorEscolha);
+                mensagem(jogadorNome + ' escolha uma opção...');
+            }, 3500);
 
             //resetando o jogo
             if (jogadorPontos == 5) {
